@@ -6,3 +6,4 @@ var questions = [
     { q: 'The Declaration of Independence was created in 1745.', a: 'f' },
     { q: 'Bananas are vegetables.', a: 'f' }
 ];
+
