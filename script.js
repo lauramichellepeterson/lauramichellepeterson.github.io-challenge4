@@ -1,11 +1,10 @@
 var mainTextEl = document.querySelector("#main-text");
 var jsButtons = document.querySelector("#js-buttons");
 var gradingTextEl = document.querySelector("#grading-text");
-var initialsTextEl = document.querySelector("#initials-text");
-var initialsInputEl = document.querySelector("#initials-input");
-var initialsSubmitEl = document.querySelector("#initials-submit");
+var initialsDivEl = document.querySelector("#initials-div");
+var scoreButtonsEl = document.querySelector("#high-score-buttons");
+var scoreListEl = document.querySelector("#high-scores");
 
-var initialsText = "Enter your initials.";
 var startButtonId = "js-start-button";
 var trueButtonId = "js-true-button";
 var falseButtonId = "js-false-button";
@@ -22,61 +21,39 @@ var questions = [
     { q: "Variables do not allow you to save data. ", a: 'f' }
 ];
 
-// Reset variables for start of game
-var startQuiz = function() {
-    score = 0;
-    answer = "";
-    i=0;
 
-    mainTextEl.textContent = "Start the quiz";
-    createQuizButton("START",startButtonId);
-};
-
-var endQuiz = function() {
-    mainTextEl.textContent = ("All Done!");
-    deleteButton(trueButtonId);
-    deleteButton(falseButtonId);
-    gradingTextEl.textContent = ("Your final score is: " + score + "/" + (questions.length));
-    //Create text, input, and submit button for entering initials
-    createInitialsTextEl();
-    createInitialsInputEl();
-    createSubmitButton();
-};
 
 var updateQuestionText = function() {
     mainTextEl.textContent = (i+1) + ". " + questions[i].q;
 };
 
 var createInitialsTextEl = function() {
-    // create button
     var textEl = document.createElement("h3");
-    textEl.textContent = initialsText;
+    textEl.textContent = "Enter your initials.";
     textEl.className = "initials-text";
     textEl.id = "initials-text";
 
-    // add button to DOM as a child of the jsButtons div
-    initialsTextEl.appendChild(textEl);
+    // add button to DOM as a child of initialsDivEl
+    initialsDivEl.appendChild(textEl);
 };
 
 var createInitialsInputEl = function() {
-    // create button
     var tempEl = document.createElement("input");
     tempEl.className = "initials-input";
     tempEl.id= "initials-input";
 
-    // add button to DOM as a child of the jsButtons div
-    initialsInputEl.appendChild(tempEl);
+    // add button to DOM as a child of initialsDivEl
+    initialsDivEl.appendChild(tempEl);
 };
 
 var createSubmitButton = function() {
-    // create button
     var tempEl = document.createElement("button");
     tempEl.textContent = "submit";
     tempEl.className = "btn-js-btn";
     tempEl.id = "initials-submit-button";
 
-    // add button to DOM as a child of the jsButtons div
-    initialsSubmitEl.appendChild(tempEl);
+    // add button to DOM as a child of initialsDivEl
+    initialsDivEl.appendChild(tempEl);
 };
 
 var getInitials = function () {
@@ -95,9 +72,82 @@ var createQuizButton = function(text,id) {
     jsButtons.appendChild(buttonEl);
 };
 
+var createScoresListItems = function(listElement) {
+    // create the list items
+    for (item=0; item<scores.length; item++) {
+        var listItemEl = document.createElement("li");
+        listItemEl.textContent = scores[item].initials + " - " + scores[item].quizScore;
+        listItemEl.class = "list-item";
+        listItemEl.id = "list-item-"+(item+1);
+        listElement.appendChild(listItemEl);
+    }
+};
+
+var createScoresList = function() {
+    // create the list
+    var listEl = document.createElement("ol");
+    listEl.className = "score-list";
+    listEl.id = "score-list";
+    scoreListEl.appendChild(listEl);
+
+    createScoresListItems(listEl);
+};
+
+var createScoresButton = function(text,id) {
+    //create button
+    var buttonEl = document.createElement("button");
+    buttonEl.textContent = text;
+    buttonEl.className = "btn-js-btn";
+    buttonEl.id = id;
+
+    // add button to DOM as a child of the scoreButtonsEl
+    scoreButtonsEl.appendChild(buttonEl);
+};
+
 var deleteButton = function(buttonId) {
     var buttonSelected = document.querySelector(".btn-js-btn[id='" + buttonId + "']");
     buttonSelected.remove();    
+};
+
+var deleteElement = function(selector) {
+    var elementSelected = document.querySelector(selector);
+    elementSelected.remove();    
+};
+
+
+var startQuiz = function() {
+    // Reset variables for start of game
+    score = 0;
+    answer = "";
+    i=0;
+
+    mainTextEl.textContent = "Start the quiz";
+    createQuizButton("START",startButtonId);
+};
+
+var endQuiz = function() {
+    mainTextEl.textContent = ("All Done!");
+    deleteButton(trueButtonId);
+    deleteButton(falseButtonId);
+    gradingTextEl.textContent = ("Your final score is: " + score + "/" + (questions.length));
+
+    //Create text, input, and submit button for entering initials
+    createInitialsTextEl();
+    createInitialsInputEl();
+    createSubmitButton();
+};
+
+var showHighScores = function() { 
+    deleteElement(".initials-text");
+    deleteElement(".initials-input");
+    deleteElement(".btn-js-btn[id='initials-submit-button']");
+
+    mainTextEl.textContent = "High Scores";
+    gradingTextEl.textContent = "";
+
+    createScoresList();
+    createScoresButton("Go Back", "back-button");
+    createScoresButton("Delete Scores", "delete-button");
 };
 
 var quizLoop = function() {
@@ -126,6 +176,22 @@ var quizLoop = function() {
     }
 };
 
+var scoresButtonHandler = function(event) {
+    var targetEl = event.target;
+
+    if (targetEl.matches(".btn-js-btn[id='delete-button']") ) {
+        scores = [];
+    } else if (targetEl.matches(".btn-js-btn[id='back-button']") ) {
+        // delete list and buttons
+        deleteElement(".score-list");
+        deleteElement(".btn-js-btn[id='back-button']");
+        deleteElement(".btn-js-btn[id='delete-button']");
+
+        // restart quiz
+        startQuiz();
+    }
+};
+
 var initialsButtonHandler = function (event) {
     var targetEl = event.target;
 
@@ -136,7 +202,6 @@ var initialsButtonHandler = function (event) {
             alert ("Input cannot be blank.");
         } else {
             // save initials and score in array
-            console.log("Saving: " + inputValue + ", " + score);
             scores.push( {initials: inputValue, quizScore: score} );
 
             // alert user
@@ -146,6 +211,7 @@ var initialsButtonHandler = function (event) {
             document.querySelector("input[id='initials-input']").value = "";
 
             // display high scores
+            showHighScores();
         }
     } 
 }
@@ -154,7 +220,6 @@ var questionButtonHandler = function(event) {
     //get target element from event
     var targetEl = event.target;
 
-    // if (targetEl.matches(".btn-js-btn[id='js-start-button']") && (i===0) ) {
     if (targetEl.matches(".btn-js-btn[id='" + startButtonId + "']") && (i===0) ) {     
             deleteButton(startButtonId);
             createQuizButton("True",trueButtonId);
@@ -182,4 +247,5 @@ if (i===0) {
 } 
 
 jsButtons.addEventListener("click", questionButtonHandler);
-initialsSubmitEl.addEventListener("click", initialsButtonHandler);
+initialsDivEl.addEventListener("click", initialsButtonHandler);
+scoreButtonsEl.addEventListener("click", scoresButtonHandler);
