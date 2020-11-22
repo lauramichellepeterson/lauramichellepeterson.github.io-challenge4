@@ -1,21 +1,15 @@
 var mainTextEl = document.querySelector("#main-text");
 var gradingTextEl = document.querySelector("#grading-text");
-var scoreTextEl = document.querySelector("#score-text");
-
-// var buttonSection = document.querySelector("#buttons");
+var initialsEl = document.querySelector("#submit-intials");
 var jsButtons = document.querySelector("#js-buttons");
+
 var startButtonId = "js-start-button";
 var trueButtonId = "js-true-button";
 var falseButtonId = "js-false-button";
-// var htmlButtons = document.querySelector("#html-buttons");
-// var startButton = document.querySelector("#start-button");
-// var trueButton = document.querySelector("#true-button");
-// var falseButton = document.querySelector("#false-button");
+
 var score = 0;
 var answer = "";
 var i=0;
-
-//Ask a series of questions
 var questions = [
     { q: "Webpages can respond to user's actions", a: 't' },
     { q: "Every valid web page can be represented as a tree. This tree is referred to as the DOM", a: 't' },
@@ -24,63 +18,38 @@ var questions = [
     { q: "Variables do not allow you to save data. ", a: 'f' }
 ];
 
-//Start game with score of 0
-// var startQuiz = function() {
-//     score = 0;
-//     answer = "";
-//     i=0;
+// Reset variables for start of game
+var startQuiz = function() {
+    score = 0;
+    answer = "";
+    i=0;
 
-//     mainTextEl.textContent = "Start the quiz";
-// };
+    mainTextEl.textContent = "Start the quiz";
+    createQuizButton("START",startButtonId);
+};
+
+var endQuiz = function() {
+    mainTextEl.textContent = ("All Done!");
+    deleteButton(trueButtonId);
+    deleteButton(falseButtonId);
+    gradingTextEl.textContent = ("");
+    gradingTextEl.textContent = ("Your final score is: " + score + "/" + (questions.length));
+    // scoreTextEl.textContent = ("Your final score is: " + score + "/" + (questions.length));
+    //Create text, input, and submit button for entering initials
+};
 
 var updateQuestionText = function() {
     mainTextEl.textContent = (i+1) + ". " + questions[i].q;
 };
 
-// var createStartButton = function() {
-//     // create button
-//     var buttonEl = document.createElement("button");
-//     buttonEl.textContent = "JS Start Button";
-//     buttonEl.className = "btn-js-btn";
-//     buttonEl.id = "js-start-button";
-
-//     // add button to DOM
-//     // buttonSection.appendChild(buttonEl);
-//     jsButtons.appendChild(buttonEl);
-// };
-
-// var createTrueButton = function() {
-//     // create button
-//     var buttonEl = document.createElement("button");
-//     buttonEl.textContent = "JS True";
-//     buttonEl.className = "btn-js-btn";
-//     buttonEl.id = "js-true-button";
-
-//     // add button to DOM
-//     // buttonSection.appendChild(buttonEl);
-//     jsButtons.appendChild(buttonEl);
-// };
-
-// var createFalseButton = function() {
-//     // create button
-//     var buttonEl = document.createElement("button");
-//     buttonEl.textContent = "JS False";
-//     buttonEl.className = "btn-js-btn";
-//     buttonEl.id = "js-false-button";
-
-//     // add button to DOM
-//     // buttonSection.appendChild(buttonEl);
-//     jsButtons.appendChild(buttonEl);
-// };
-
-var createButton = function(text,id) {
+var createQuizButton = function(text,id) {
     // create button
     var buttonEl = document.createElement("button");
     buttonEl.textContent = text;
     buttonEl.className = "btn-js-btn";
     buttonEl.id = id;
 
-    // add button to DOM
+    // add button to DOM as a child of the jsButtons div
     jsButtons.appendChild(buttonEl);
 };
 
@@ -111,7 +80,7 @@ var quizLoop = function() {
         updateQuestionText();
     } else {
         // End the quiz
-        scoreTextEl.textContent = ("You got " + score + "/" + (questions.length));
+        endQuiz();
     }
 };
 
@@ -125,8 +94,8 @@ var questionButtonHandler = function(event) {
             deleteButton(startButtonId);
             // createTrueButton();
             // createFalseButton();
-            createButton("True",trueButtonId);
-            createButton("False",falseButtonId);
+            createQuizButton("True",trueButtonId);
+            createQuizButton("False",falseButtonId);
             updateQuestionText();
             answer = "";
     } 
@@ -146,16 +115,9 @@ var questionButtonHandler = function(event) {
     }
 };
 
-mainTextEl.textContent = "Start the quiz"
 
 if (i===0) {
-    // createStartButton();
-    createButton("START",startButtonId);
+    startQuiz();
 } 
 
-// buttonSection.addEventListener("click", questionButtonHandler);
-// startButton.addEventListener("click", questionButtonHandler);
-// trueButton.addEventListener("click", questionButtonHandler);
-// falseButton.addEventListener("click", questionButtonHandler);
 jsButtons.addEventListener("click", questionButtonHandler);
-// htmlButtons.addEventListener("click", questionButtonHandler);
