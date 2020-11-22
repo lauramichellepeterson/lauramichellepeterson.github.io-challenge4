@@ -40,8 +40,6 @@ var quizLoop = function() {
         //Display current question to user and ask ok/cancel
         // var answer = confirm(questions[i].q);
 
-        updateQuestionText();
-
         //Compare answers
         if( (answer === true && questions[i].a === "t") ||
             (answer === false && questions[i].a === 'f')) {
@@ -57,11 +55,14 @@ var quizLoop = function() {
             i++;
         }
         
-        console.log(gradingTextEl.textContent);
-        updateQuestionText();
-
-        console.log("Score: " + score);
-        console.log("Counter: " + i);
+        if (i>questions.length) {
+            //End the game
+            console.log("End of Quiz")
+        } else {
+            console.log("Score: " + score);
+            console.log("Counter: " + i);
+            updateQuestionText();
+        }
     // }
 };
 
@@ -84,6 +85,9 @@ var questionButtonHandler = function(event) {
         // deleteTask(taskId);
     }
     else if (targetEl.matches("#start-button")) {
+        if (i=0) {
+            updateQuestionText();
+        }
         console.log("Start button clicked");
         answer = "";
     }
@@ -93,8 +97,7 @@ var questionButtonHandler = function(event) {
     }
 };
 
-// if 
-//     startQuiz();
+
 
 //Show total at end
 // alert("You got " + score + "/" + (questions.length-1));
