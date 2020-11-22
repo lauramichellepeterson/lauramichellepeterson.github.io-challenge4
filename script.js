@@ -8,9 +8,6 @@ var score = 0;
 var answer = "";
 var i=0;
 
-mainTextEl.textContent = "Start the quiz"
-// createStartButton();
-
 //Ask a series of questions
 var questions = [
     { q: "Webpages can respond to user's actions", a: 't' },
@@ -20,14 +17,17 @@ var questions = [
     { q: "Variables do not allow you to save data. ", a: 'f' }
 ];
 
-//Start game with score of 0
-var startQuiz = function() {
-    score = 0;
-    answer = "";
-    i=0;
+mainTextEl.textContent = "Start the quiz"
+// createStartButton();
 
-    mainTextEl.textContent = "Start the quiz";
-};
+//Start game with score of 0
+// var startQuiz = function() {
+//     score = 0;
+//     answer = "";
+//     i=0;
+
+//     mainTextEl.textContent = "Start the quiz";
+// };
 
 var updateQuestionText = function() {
     mainTextEl.textContent = (i+1) + ". " + questions[i].q;
@@ -48,11 +48,9 @@ var quizLoop = function() {
         gradingTextEl.textContent = "Click True or False button";
     } else {
         gradingTextEl.textContent = "Wrong!";
+        // remove time from timer here
         i++;
     }
-    
-    // console.log("Score: " + score);
-    // console.log("Counter: " + i);
 
     if (i>=questions.length) {
         //End the game
@@ -92,10 +90,6 @@ var questionButtonHandler = function(event) {
             // delete start button then updateQuestionText
             
             updateQuestionText();
-        } else if (i>0 && i<questions.length) {
-            
-        } else if (i>=questions.length) {
-            
         }
         answer = "";
     }
