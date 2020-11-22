@@ -9,6 +9,7 @@ var answer = "";
 var i=0;
 
 mainTextEl.textContent = "Start the quiz"
+// createStartButton();
 
 //Ask a series of questions
 var questions = [
@@ -30,41 +31,48 @@ var startQuiz = function() {
 
 var updateQuestionText = function() {
     mainTextEl.textContent = (i+1) + ". " + questions[i].q;
-    console.log(mainTextEl.textContent);
+    // console.log(mainTextEl.textContent);
 };
 
 
 var quizLoop = function() {
-    //Loop over every question
-    // while (i<=questions.length) {
-        //Display current question to user and ask ok/cancel
-        // var answer = confirm(questions[i].q);
+    //Compare answers
+    if( (answer === true && questions[i].a === "t") ||
+        (answer === false && questions[i].a === 'f')) {
+        //increase score
+        score++;
+        //Alert the user
+        gradingTextEl.textContent = "Correct!";
+        i++;
+    } else if (answer === "") {
+        gradingTextEl.textContent = "Click True or False button";
+    } else {
+        gradingTextEl.textContent = "Wrong!";
+        i++;
+    }
+    
+    // console.log("Score: " + score);
+    // console.log("Counter: " + i);
 
-        //Compare answers
-        if( (answer === true && questions[i].a === "t") ||
-            (answer === false && questions[i].a === 'f')) {
-            //increase score
-            score++;
-            //Alert the user
-            gradingTextEl.textContent = "Correct!";
-            i++;
-        } else if (answer === "") {
-            gradingTextEl.textContent = "Click True or False button";
-        } else {
-            gradingTextEl.textContent = "Wrong!";
-            i++;
-        }
-        
-        if (i>questions.length) {
-            //End the game
-            console.log("End of Quiz")
-        } else {
-            console.log("Score: " + score);
-            console.log("Counter: " + i);
-            updateQuestionText();
-        }
-    // }
+    if (i>=questions.length) {
+        //End the game
+        scoreTextEl.textContent = ("You got " + score + "/" + (questions.length));
+        // console.log("End of Quiz");
+    } else {
+        updateQuestionText();
+    }
 };
+
+// var createStartButton = function() {
+//     // create list item
+//     var listItemEl = document.createElement("li");
+//     listItemEl.className = "start-button";
+
+//     // add task id as a custom attribute
+//     listItemEl.setAttribute("start-button-id", taskIdCounter);
+
+//     buttonList.appendChild(listItemEl);
+// };
 
 var questionButtonHandler = function(event) {
     //get target element from event
@@ -73,26 +81,26 @@ var questionButtonHandler = function(event) {
     //true button was clicked
     if (targetEl.matches("#true-button")) {
         answer = true;
-        console.log("true button clicked");
-        // var taskId = targetEl.getAttribute("data-task-id");
-        // editTask(taskId);
     }
     //false button was clicked
     else if (targetEl.matches("#false-button")) {
         answer = false;
-        console.log("false button clicked");
-        // var taskId = targetEl.getAttribute("data-task-id");
-        // deleteTask(taskId);
     }
+    // start button was clicked
     else if (targetEl.matches("#start-button")) {
-        if (i=0) {
+        if (i===0) {
+            // delete start button then updateQuestionText
+            
             updateQuestionText();
+        } else if (i>0 && i<questions.length) {
+            
+        } else if (i>=questions.length) {
+            
         }
-        console.log("Start button clicked");
         answer = "";
     }
 
-    if (i<questions.length-1) {
+    if (i<questions.length) {
         quizLoop();
     }
 };
