@@ -3,28 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Coding Quiz Challenge</title>
 </head>
 <body>
     <!-- Header displays link to highscores and timer -->
     <header>
-        <h2>This is the header</h2>
+        <P>View High Scores</p>
+        <p>Time: ??</p>
     </header>
     <!-- Main displays start view, questions and answers, final scores -->
     <main>
         <!-- Start or question text -->
-        <section>
-            <h2>Heading to contain text</h2>
+        <section class="heading-text">
+            <h2 class="heading" id="main-text"></h2>
         </section>
         <!-- Answers -->
         <section>
-            <h2>Questions will be here</h2>
+            <!-- <h2>Answer buttons will be here</h2> -->
+            <ul class="button-list" id="button-list">
+                <button class="btn" id="start-button" type="submit">Start Quiz</button>
+                <button class="btn" id="true-button" type="submit">True</button>
+                <button class="btn" id="false-button" type="submit">False</button>
+            </ul>
         </section>
         <!-- Grading right/wrong -->
         <section>
-            <h2>Grading will be here</h2>
+            <!-- <h2>Grading will be here</h2> -->
+            <h3 class ="grading-text" id="grading-text"></h3>
+            <h3 class ="score-text" id="score-text"></h3>
         </section>
     </main>
 
 </body>
+<script src="./script.js"></script>
 </html>
