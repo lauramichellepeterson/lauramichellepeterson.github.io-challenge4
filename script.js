@@ -13,6 +13,7 @@ var falseButtonId = "js-false-button";
 var scores = [];
 
 var secondsRemaining = 60;
+var countSeconds = 0;
 var score = 0;
 var answer = "";
 var i=0;
@@ -124,6 +125,7 @@ var startQuiz = function() {
     answer = "";
     i=0;
     secondsRemaining = 60;
+    countSeconds = 0;
     updateTimer();
     mainTextEl.textContent = "Coding Quiz Challenge";
     instructionTextEl.textContent = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!"
@@ -134,6 +136,7 @@ var endQuiz = function() {
     deleteButton(trueButtonId);
     deleteButton(falseButtonId);
     
+    stopTimer(secondsRemaining);
     mainTextEl.textContent = ("All Done!");
     score=score*10
     gradingTextEl.textContent = ("Your final score is: " + score);
@@ -163,20 +166,22 @@ var updateTimer = function() {
     timerEl.textContent = "Time Left: "+secondsRemaining;
 };
 
-// var  setGameTime = function() {
-//     clearInterval(gameInterval);
-//     gameSeconds = gameDuration;
-// };
+var startTimer = function() {
+    countSeconds = setInterval(function(){ 
+        // alert("Hello");
+        secondsRemaining=secondsRemaining-1;
+        updateTimer();
+        if (secondsRemaining <= 0){
+            stopTimer();
+            endQuiz();
+        } 
+    }, 1000);
+};
 
-// var startGameTimer = function() {
-//     setGameTime();
-  
-//     gameInterval = setInterval(function() {
-//         gameSecElapsed++; 
-//         questionSecElapsed++; 
-//         renderTime();
-//     }, 1000);
-// };
+var stopTimer = function(freezeSeconds=0) {
+    secondsRemaining = freezeSeconds;
+    clearInterval(countSeconds);
+};
 
 var quizLoop = function() {
     //Compare answers
@@ -190,7 +195,7 @@ var quizLoop = function() {
     } else if (answer === "") {
         gradingTextEl.textContent = "Click True or False button";
     } else {
-        gradingTextEl.textContent = "Wrong!";
+        gradingTextEl.textContent = "Wrong! (-10 seconds)";
         secondsRemaining=secondsRemaining-10;
         updateTimer();
         i++;
@@ -260,7 +265,7 @@ var questionButtonHandler = function(event) {
             createQuizButton("False",falseButtonId);
             updateQuestionText();
             answer = "";
-            // start timer
+            startTimer();
     } 
     //true button was clicked
     else if (targetEl.matches(".btn-js-btn[id='" + trueButtonId + "']")) {
