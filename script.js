@@ -1,15 +1,18 @@
 var mainTextEl = document.querySelector("#main-text");
+var timerEl = document.querySelector("#timer-text")
 var jsButtons = document.querySelector("#js-buttons");
 var gradingTextEl = document.querySelector("#grading-text");
 var initialsDivEl = document.querySelector("#initials-div");
 var scoreButtonsEl = document.querySelector("#high-score-buttons");
 var scoreListEl = document.querySelector("#high-scores");
+var instructionTextEl = document.querySelector("#instruction-text");
 
 var startButtonId = "js-start-button";
 var trueButtonId = "js-true-button";
 var falseButtonId = "js-false-button";
 var scores = [];
 
+var secondsRemaining = 60;
 var score = 0;
 var answer = "";
 var i=0;
@@ -48,7 +51,7 @@ var createInitialsInputEl = function() {
 
 var createSubmitButton = function() {
     var tempEl = document.createElement("button");
-    tempEl.textContent = "submit";
+    tempEl.textContent = "Submit";
     tempEl.className = "btn-js-btn";
     tempEl.id = "initials-submit-button";
 
@@ -120,8 +123,10 @@ var startQuiz = function() {
     score = 0;
     answer = "";
     i=0;
-
-    mainTextEl.textContent = "Start the quiz";
+    secondsRemaining = 60;
+    updateTimer();
+    mainTextEl.textContent = "Coding Quiz Challenge";
+    instructionTextEl.textContent = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!"
     createQuizButton("START",startButtonId);
 };
 
@@ -130,7 +135,8 @@ var endQuiz = function() {
     deleteButton(falseButtonId);
     
     mainTextEl.textContent = ("All Done!");
-    gradingTextEl.textContent = ("Your final score is: " + score + "/" + (questions.length));
+    score=score*10
+    gradingTextEl.textContent = ("Your final score is: " + score);
 
     //Create text, input, and submit button for entering initials
     createInitialsTextEl();
@@ -142,7 +148,7 @@ var clearInitialsDiv = function() {
     deleteElement(".initials-text");
     deleteElement(".initials-input");
     deleteElement(".btn-js-btn[id='initials-submit-button']");
-}
+};
 
 var showHighScores = function() { 
     mainTextEl.textContent = "High Scores";
@@ -152,6 +158,25 @@ var showHighScores = function() {
     createScoresButton("Go Back", "back-button");
     createScoresButton("Delete Scores", "delete-button");
 };
+
+var updateTimer = function() {
+    timerEl.textContent = "Time Left: "+secondsRemaining;
+};
+
+// var  setGameTime = function() {
+//     clearInterval(gameInterval);
+//     gameSeconds = gameDuration;
+// };
+
+// var startGameTimer = function() {
+//     setGameTime();
+  
+//     gameInterval = setInterval(function() {
+//         gameSecElapsed++; 
+//         questionSecElapsed++; 
+//         renderTime();
+//     }, 1000);
+// };
 
 var quizLoop = function() {
     //Compare answers
@@ -166,7 +191,8 @@ var quizLoop = function() {
         gradingTextEl.textContent = "Click True or False button";
     } else {
         gradingTextEl.textContent = "Wrong!";
-        // remove time from timer here
+        secondsRemaining=secondsRemaining-10;
+        updateTimer();
         i++;
     }
 
@@ -226,12 +252,15 @@ var questionButtonHandler = function(event) {
     //get target element from event
     var targetEl = event.target;
 
+    //start button was clicked
     if (targetEl.matches(".btn-js-btn[id='" + startButtonId + "']") && (i===0) ) {     
+            instructionTextEl.textContent = "";
             deleteButton(startButtonId);
             createQuizButton("True",trueButtonId);
             createQuizButton("False",falseButtonId);
             updateQuestionText();
             answer = "";
+            // start timer
     } 
     //true button was clicked
     else if (targetEl.matches(".btn-js-btn[id='" + trueButtonId + "']")) {

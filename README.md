@@ -7,5 +7,4 @@ User can take a timed quiz on Java Script fundamentals. If the user get an answe
 # GitHub
 https://github.com/lauramichellepeterson/lauramichellepeterson.github.io-challenge4
 
-<!-- Screenshot insert here -->
-<!-- ![Challenge_4_screenshot](./Challenge_4_Screen_Shot.png) -->
+![Challenge_4_screenshot](./Challenge_4_Screen_Shot.png)

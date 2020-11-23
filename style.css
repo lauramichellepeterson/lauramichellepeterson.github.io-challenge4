@@ -20,8 +20,6 @@ body {
 }
 
 .high-score-link {
-    /* display: flex;
-    align-items: flex-end; */
     display: flex;
     flex-wrap: wrap;
     align-items: left;
@@ -31,9 +29,7 @@ body {
     margin-right: 10%;
 }
 
-.time {
-    /* display: flex;
-    align-items: flex-end; */
+.timer {
     display: flex;
     flex-wrap: wrap;
     align-items: right;
@@ -46,5 +42,37 @@ body {
 .main-text {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 2.5rem;
+    display: flex;
+    justify-content: center;
 }
 
+.instruction-text {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.btn-js-btn {
+    outline: black;
+    border: 2px solid black;
+    display: inline-block;
+    padding: 5px 10px;
+    background: rgb(182, 191, 241);
+    font-size: 2.2rem;
+    border-radius: 5px;
+    position: relative;
+    top: -3px;
+    box-shadow: 0 3px black;
+    margin: 4px;
+  }
+  
+  .btn-js-btn:hover {
+    background: yellow;
+    top: -2px;
+  }
+
+  .high-scores {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.5rem;
+  }
+ 
