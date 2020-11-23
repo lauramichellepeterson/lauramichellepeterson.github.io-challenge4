@@ -76,7 +76,7 @@ var createScoresListItems = function(listElement) {
     // create the list items
     for (item=0; item<scores.length; item++) {
         var listItemEl = document.createElement("li");
-        listItemEl.textContent = scores[item].initials + " - " + scores[item].quizScore;
+        listItemEl.textContent = scores[item].initials + " : " + scores[item].quizScore;
         listItemEl.class = "list-item";
         listItemEl.id = "list-item-"+(item+1);
         listElement.appendChild(listItemEl);
@@ -126,9 +126,10 @@ var startQuiz = function() {
 };
 
 var endQuiz = function() {
-    mainTextEl.textContent = ("All Done!");
     deleteButton(trueButtonId);
     deleteButton(falseButtonId);
+    
+    mainTextEl.textContent = ("All Done!");
     gradingTextEl.textContent = ("Your final score is: " + score + "/" + (questions.length));
 
     //Create text, input, and submit button for entering initials
@@ -137,11 +138,13 @@ var endQuiz = function() {
     createSubmitButton();
 };
 
-var showHighScores = function() { 
+var clearInitialsDiv = function() {
     deleteElement(".initials-text");
     deleteElement(".initials-input");
     deleteElement(".btn-js-btn[id='initials-submit-button']");
+}
 
+var showHighScores = function() { 
     mainTextEl.textContent = "High Scores";
     gradingTextEl.textContent = "";
 
@@ -181,6 +184,11 @@ var scoresButtonHandler = function(event) {
 
     if (targetEl.matches(".btn-js-btn[id='delete-button']") ) {
         scores = [];
+        deleteElement(".score-list");
+        deleteElement(".btn-js-btn[id='back-button']");
+        deleteElement(".btn-js-btn[id='delete-button']");
+
+        showHighScores();
     } else if (targetEl.matches(".btn-js-btn[id='back-button']") ) {
         // delete list and buttons
         deleteElement(".score-list");
@@ -204,13 +212,11 @@ var initialsButtonHandler = function (event) {
             // save initials and score in array
             scores.push( {initials: inputValue, quizScore: score} );
 
-            // alert user
-            alert("Saved!\nInitials: " + inputValue + "\nScore: " + score);
-
             // clear input
             document.querySelector("input[id='initials-input']").value = "";
 
             // display high scores
+            clearInitialsDiv();
             showHighScores();
         }
     } 

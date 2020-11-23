@@ -4,18 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coding Quiz Challenge</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
     <!-- Header displays link to highscores and timer -->
-    <header>
-        <P>View High Scores</p>
-        <p>Time: ??</p>
+    <header class="top-bar">
+        <div class="high-score-link">
+            <P>View High Scores</p>
+        </div>
+        <div class="time">
+            <p>Time: ??</p>
+        </div>
     </header>
     <!-- Main displays start view, questions and answers, final scores -->
     <main>
         <!-- Text for Start or Question  -->
         <section class="heading-text">
-            <h2 class="heading" id="main-text"></h2>
+            <h2 class="main-text" id="main-text"></h2>
         </section>
         <!-- Buttons for Start and Answers -->
         <section class="buttons" id="buttons">
