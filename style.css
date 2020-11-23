@@ -76,7 +76,8 @@ body {
     font-size: 1.5rem;
   }
  
-  .grading {
+  .grading-text {
       border-top: 1px solid gray;
       margin-top: 15px;
+      padding-top: 15px;
   }

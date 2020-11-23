@@ -25,8 +25,6 @@ var questions = [
     { q: "Variables do not allow you to save data. ", a: 'f' }
 ];
 
-
-
 var updateQuestionText = function() {
     mainTextEl.textContent = (i+1) + ". " + questions[i].q;
 };
@@ -118,6 +116,23 @@ var deleteElement = function(selector) {
     elementSelected.remove();    
 };
 
+var clearInitialsDiv = function() {
+    deleteElement(".initials-text");
+    deleteElement(".initials-input");
+    deleteElement(".btn-js-btn[id='initials-submit-button']");
+};
+
+var clearScoresDiv = function() {
+    deleteElement(".score-list");
+    deleteElement(".btn-js-btn[id='back-button']");
+    deleteElement(".btn-js-btn[id='delete-button']");
+};
+
+var clearStartDiv = function() {
+    instructionTextEl.textContent = "";
+    deleteButton(startButtonId);
+    updateQuestionText();
+};
 
 var startQuiz = function() {
     // Reset variables for start of game
@@ -145,12 +160,6 @@ var endQuiz = function() {
     createInitialsTextEl();
     createInitialsInputEl();
     createSubmitButton();
-};
-
-var clearInitialsDiv = function() {
-    deleteElement(".initials-text");
-    deleteElement(".initials-input");
-    deleteElement(".btn-js-btn[id='initials-submit-button']");
 };
 
 var showHighScores = function() { 
@@ -215,17 +224,13 @@ var scoresButtonHandler = function(event) {
 
     if (targetEl.matches(".btn-js-btn[id='delete-button']") ) {
         scores = [];
-        deleteElement(".score-list");
-        deleteElement(".btn-js-btn[id='back-button']");
-        deleteElement(".btn-js-btn[id='delete-button']");
-
+        // delete list and buttons
+        clearScoresDiv();
+        // create list and buttons
         showHighScores();
     } else if (targetEl.matches(".btn-js-btn[id='back-button']") ) {
         // delete list and buttons
-        deleteElement(".score-list");
-        deleteElement(".btn-js-btn[id='back-button']");
-        deleteElement(".btn-js-btn[id='delete-button']");
-
+        clearScoresDiv();
         // restart quiz
         startQuiz();
     }
@@ -259,13 +264,12 @@ var questionButtonHandler = function(event) {
 
     //start button was clicked
     if (targetEl.matches(".btn-js-btn[id='" + startButtonId + "']") && (i===0) ) {     
-            instructionTextEl.textContent = "";
-            deleteButton(startButtonId);
-            createQuizButton("True",trueButtonId);
-            createQuizButton("False",falseButtonId);
-            updateQuestionText();
-            answer = "";
-            startTimer();
+        clearStartDiv(); 
+
+        createQuizButton("True",trueButtonId);
+        createQuizButton("False",falseButtonId);
+        answer = "";
+        startTimer();
     } 
     //true button was clicked
     else if (targetEl.matches(".btn-js-btn[id='" + trueButtonId + "']")) {
